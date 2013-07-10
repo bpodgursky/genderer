@@ -1,34 +1,39 @@
 package com.bpodgursky.genderer;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.Lists;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 public class NameHelper {
 
   public static DeducedName getName(List<String> tokens) throws IOException {
     FreqCorpus inst = FreqCorpus.inst();
 
-    Set<StringScore> firsts = Sets.newTreeSet();
-    Set<StringScore> lasts = Sets.newTreeSet();
+    List<StringScore> firsts = Lists.newArrayList();
+    List<StringScore> lasts = Lists.newArrayList();
 
     for (String token : tokens) {
       firsts.add(new StringScore(token,
-          inst.getFemaleFreq(token) + inst.getMaleFreq(token)
-      ));
+          inst.getFemaleFreq(token) + inst.getMaleFreq(token)));
 
       lasts.add(new StringScore(token,
           inst.getSurnameFreq(token)));
+
     }
+
+    Collections.sort(firsts);
+    Collections.sort(lasts);
 
     String firstName = null;
     for (StringScore first : firsts) {
       if(first.getScore() > 0.0){
         firstName = first.getValue();
+        break;
       }
     }
+
 
     String lastName = null;
     for (StringScore last : lasts) {
@@ -38,6 +43,7 @@ public class NameHelper {
 
       if(!last.getValue().equals(firstName)){
         lastName = last.getValue();
+        break;
       }
     }
 
@@ -64,7 +70,14 @@ public class NameHelper {
 
     @Override
     public int compareTo(StringScore o) {
-      return (int) (o.getScore()*1000l - getScore()*1000l);
+
+      if(getScore() > o.getScore()){
+        return -1;
+      }else if(o.getScore() > getScore()){
+        return 1;
+      }
+
+      return 0;
     }
 
     @Override
@@ -73,6 +86,29 @@ public class NameHelper {
           "score=" + score +
           ", value='" + value + '\'' +
           '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (!(o instanceof StringScore)) return false;
+
+      StringScore that = (StringScore) o;
+
+      if (Double.compare(that.score, score) != 0) return false;
+      if (value != null ? !value.equals(that.value) : that.value != null) return false;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int result;
+      long temp;
+      temp = Double.doubleToLongBits(score);
+      result = (int) (temp ^ (temp >>> 32));
+      result = 31 * result + (value != null ? value.hashCode() : 0);
+      return result;
     }
   }
 }

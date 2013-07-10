@@ -17,6 +17,8 @@ public class EmailDataServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    long startTime = System.currentTimeMillis();
+
     String email = req.getParameter("email");
 
     LOG.info("Request email: "+email);
@@ -44,6 +46,8 @@ public class EmailDataServlet extends HttpServlet {
 
       resp.getWriter().write(obj.toString());
 
+      long endTime = System.currentTimeMillis();
+      LOG.info("Query took "+(endTime-startTime)+" ms");
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
