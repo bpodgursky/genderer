@@ -30,7 +30,7 @@ public class WebServer implements Runnable{
     try{
       LOG.info("Starting webserver...");
 
-      Server uiServer = new Server(DEFAULT_PORT);
+      Server uiServer = new Server(port);
       final URL warUrl = uiServer.getClass().getClassLoader().getResource("com/bpodgursky/genderer/");
       final String warUrlString = warUrl.toExternalForm();
 
