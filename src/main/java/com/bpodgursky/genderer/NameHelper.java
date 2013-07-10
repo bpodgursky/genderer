@@ -1,17 +1,15 @@
 package com.bpodgursky.genderer;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 public class NameHelper {
 
   public static DeducedName getName(List<String> tokens) throws IOException {
-    NameFreqCorpus inst = NameFreqCorpus.inst();
+    FreqCorpus inst = FreqCorpus.inst();
 
     Set<StringScore> firsts = Sets.newTreeSet();
     Set<StringScore> lasts = Sets.newTreeSet();
@@ -22,7 +20,7 @@ public class NameHelper {
       ));
 
       lasts.add(new StringScore(token,
-          inst.getSurnameCount(token)));
+          inst.getSurnameFreq(token)));
     }
 
     String firstName = null;

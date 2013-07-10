@@ -5,7 +5,7 @@ import java.io.IOException;
 public class GenderHelper {
 
   public static Gender getGender(DeducedName name) throws IOException {
-    NameFreqCorpus inst = NameFreqCorpus.inst();
+    FreqCorpus inst = FreqCorpus.inst();
 
     if(name.getFirst() != null){
       String first = name.getFirst();
