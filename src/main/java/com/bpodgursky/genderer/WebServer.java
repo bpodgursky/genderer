@@ -31,7 +31,7 @@ public class WebServer implements Runnable{
       LOG.info("Starting webserver...");
 
       Server uiServer = new Server(port);
-      final URL warUrl = uiServer.getClass().getClassLoader().getResource("com/bpodgursky/genderer/");
+      final URL warUrl = uiServer.getClass().getClassLoader().getResource("com/bpodgursky/genderer/www/");
       final String warUrlString = warUrl.toExternalForm();
 
       WebAppContext webAppContext = new WebAppContext(warUrlString, "/");

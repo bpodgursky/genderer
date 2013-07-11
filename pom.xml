@@ -197,6 +197,12 @@
           <include>**/*.xml</include>
         </includes>
       </resource>
+      <resource>
+        <directory>src/main/www/</directory>
+        <includes>
+          <include>**/*.html</include>
+        </includes>
+      </resource>
     </resources>
 
     <plugins>
