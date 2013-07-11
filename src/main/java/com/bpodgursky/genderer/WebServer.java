@@ -58,8 +58,9 @@ public class WebServer implements Runnable{
       port = DEFAULT_PORT;
     }
 
-    new Thread(new WebServer(port)).start();
+    Thread thread = new Thread(new WebServer(port));
+    thread.start();
 
-    Thread.sleep(100000000);
+    thread.join();
   }
 }
